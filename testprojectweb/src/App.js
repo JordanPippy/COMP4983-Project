@@ -37,19 +37,68 @@ function runQuery(query, props) {
       }))
 }
 
-//    <Col><img src="pic_trulli.jpg" alt="{this.props.}"></img></Col>
 
-class HomepageRow extends React.Component {
+class HomepageHandler extends React.Component {
+
+    constructor(props) {
+        super(props);
+        let files = this.props.files;
+        let index = this.props.index;
+
+        this.state = {
+            files: files,
+            inde: index,
+        };
+    }
     render() {
         return (
             <div>
-            <Container>
                 <Row>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
-                    <Col></Col>
+            </div>
+            <div>
+                <Row>
+            </div>
+        );
+    }
+}
+
+class HomepageRow extends React.Component {
+
+    constructor(props) {
+        super(props);
+        let files = this.props.files;
+        let index = this.props.index;
+
+        this.state = {
+            files: files,
+            index: index,
+        };
+    }
+    renderImage(file) {
+        console.warn("IN RENDERIMAGE" + file);
+        return (
+            <img src={file} width="150px" height="150px"></img>
+        );
+    }
+
+    render() {
+        let index = this.state.index;
+        return (
+            <div>
+            <Container className="themed-container" fluid={true}>
+                <Row>
+
+                    <Col>{this.renderImage(this.state.files[index].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[index + 1].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[index + 2].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[index + 3].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[index + 4].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[index + 5].fileName)}</Col>
                 </Row>
             </Container>
             </div>
@@ -65,7 +114,7 @@ class Home extends React.Component {
 
         this.state = {
             files: [],
-            index: 1,
+            index: 0,
         };
         //runQuery('CharactersID', props)
     }
@@ -84,18 +133,16 @@ class Home extends React.Component {
         {
             console.warn(this.state.files[i].fileName);
         }
+        if (!(this.state.files.length > 0))
+            return null;
 
         return (
             <div>
+                <Container className="themed-container" fluid={true}>
                 <div>
-                    <HomepageRow />
+                    <HomepageHandler files={this.state.files /}>
                 </div>
-                <div>
-                    <h1>hello</h1>
-                </div>
-                <div>
-                {this.state.filenames}
-                </div>
+                </Container>
             </div>
         );
     }

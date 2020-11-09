@@ -8,6 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, './assets/champions')));
 
 
 const hostname = '127.0.0.1';

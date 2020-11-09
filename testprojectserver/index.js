@@ -78,18 +78,6 @@ app.get('/fileNames', function (req, res) {
 });
 
 
-
-app.get('/fp', function (req, res) {
-    res.sendFile('notindex0.html', { root: "./public" });
-    console.log("We got a fp GET request");
-})
-
-app.get('/react', function (req, res) {
-    res.sendFile('index.js', { root: "./src" });
-    console.log("We got a react GET request");
-})
-
-
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: "../testprojectweb/build" });
 })

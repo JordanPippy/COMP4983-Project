@@ -43,20 +43,62 @@ class HomepageHandler extends React.Component {
     constructor(props) {
         super(props);
         let files = this.props.files;
-        let index = this.props.index;
-
+        let index = 0;
+        let length = this.props.files.length;
         this.state = {
             files: files,
-            inde: index,
+            //index: index,
+            length: length,
         };
     }
+
+    renderImage(file) {
+        //console.warn("IN RENDERIMAGE" + file);
+        return (
+            <img src={file} width="150px" height="150px"></img>
+        );
+    }
+
+
     render() {
+        const items = [];
+        var i;
+        for (i = 0; i < this.state.length; i += 6)
+        {
+            if (i + 5 < this.state.length - (this.state.length % 6))
+            {
+                items.push( <Row>
+                    <Col>{this.renderImage(this.state.files[i].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[i + 1].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[i + 2].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[i + 3].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[i + 4].fileName)}</Col>
+
+                    <Col>{this.renderImage(this.state.files[i + 5].fileName)}</Col>
+                </Row> );
+            }
+            else
+            {
+
+                const tempItems = [];
+                for (let j = i; j < this.state.length; j++)
+                {
+                    tempItems.push(
+                        <Col>{this.renderImage(this.state.files[j].fileName)}</Col>
+                    );
+                }
+                items.push(<Row>{tempItems}</Row>);
+                break;
+            }
+        }
+
         return (
             <div>
-                <Row>
-            </div>
-            <div>
-                <Row>
+                {items}
             </div>
         );
     }
@@ -140,7 +182,7 @@ class Home extends React.Component {
             <div>
                 <Container className="themed-container" fluid={true}>
                 <div>
-                    <HomepageHandler files={this.state.files /}>
+                    <HomepageHandler files={this.state.files} />
                 </div>
                 </Container>
             </div>

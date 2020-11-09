@@ -6,7 +6,7 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 
-
+app.use(cors());
 app.use(express.static(path.join(__dirname, '../build')));
 
 
@@ -19,13 +19,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static('../testprojectweb/build'));
 
-const con = mysql.createConnection({
+const con = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "mypw",
   database: "finalProject"
 });
 
+//module.exports = pool;
+/*
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected to mysql");
@@ -35,6 +37,46 @@ con.connect(function(err) {
     console.log(result[0].fileName);
   });
 });
+*/
+
+
+app.get('/CharactersID', function (req, res) {
+    // Connecting to the database.
+    con.getConnection(function (err, connection) {
+        if (err)
+            throw err;
+        console.log("Mysql connection success.");
+
+    // Executing the MySQL query (select all data from the 'users' table).
+    con.query('SELECT * FROM CharactersID', function (error, results, fields) {
+      // If some error occurs, we throw an error.
+      if (error) throw error;
+
+      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results);
+    });
+  });
+});
+
+app.get('/fileNames', function (req, res) {
+    // Connecting to the database.
+    con.getConnection(function (err, connection) {
+        if (err)
+            throw err;
+        console.log("Mysql connection success.");
+
+    // Executing the MySQL query (select all data from the 'users' table).
+    con.query('SELECT fileName FROM fileNames', function (error, results, fields) {
+      // If some error occurs, we throw an error.
+      if (error) throw error;
+
+      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results);
+    });
+  });
+});
+
+
 
 app.get('/fp', function (req, res) {
     res.sendFile('notindex0.html', { root: "./public" });

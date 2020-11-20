@@ -2,39 +2,102 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css'
 import { Button } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Modal, ModalTitle, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
-/*
-<div>
-<Container>
-    <Row>
-        <Col>1</Col>
-        <Col>2/Col>
-        <Col>3/Col>
-        <Col>4/Col>
-        <Col>5/Col>
-        <Col>6/Col>
-        <Col>7/Col>
-        <Col>8/Col>
-        <Col>9/Col>
-        <Col>10/Col>
-    </Row>
-    <Row>
-        <Col>1 of 3</Col>
-        <Col>2 of 3</Col>
-        <Col>3 of 3</Col>
-    </Row>
-</Container>
-</div>
-*/
 
-function runQuery(query, props) {
-    console.warn("using database <client side>");
-    fetch('http://192.168.0.12:3000/CharactersID')
-      .then(response => response.fileName)
-      .then(CharactersID => this.setState({
-          filenames: CharactersID,
-      }))
+class IconModal extends React.Component {
+    constructor(props) {
+        super(props);
+        console.warn("modal");
+        this.state = {
+            image: this.props.image,
+            name: this.props.name,
+            open: this.props.open,
+            title: '',
+            p: null,
+            q: null,
+            w: null,
+            e: null,
+            r: null,
+            shouldClose: false,
+        };
+    }
+
+    getTitle() {
+        console.warn("db req name: " + this.state.name);
+        fetch('http://192.168.0.12:3000/Title/' + this.state.name)
+          .then(response => response.json())
+          .then(res => {this.setState({
+              title: res[0].title,
+          })});
+    }
+
+    getAbilities() {
+        fetch('http://192.168.0.12:3000/Ability/' + this.state.name)
+          .then(response => response.json())
+          .then(res => {this.setState({
+              p: res[1],
+              q: res[2],
+              w: res[4],
+              e: res[0],
+              r: res[3],
+          })});
+    }
+
+
+    render() {
+        this.state.image = this.props.image;
+        this.state.name = this.props.name;
+        this.state.open = this.props.open;
+
+        if (this.state.shouldClose)
+        {
+            this.state.open = false;
+            this.state.shouldClose = false;
+        }
+
+        if (this.state.open)
+        {
+            if (this.state.title != '' && this.state.q != null)
+            {
+                console.warn("open: " + this.state.open);
+                console.warn("my image is: " + this.state.image + "\nmy name is: " + this.state.name);
+                console.warn("Title: " + this.state.title);
+                return (
+                    <>
+                    <Modal scrollable={true} isOpen={this.state.open} fade="false"  toggle={() => this.setState({shouldClose: true})} onCloseModal={() => this.setState({shouldClose: true})}>
+                    <ModalHeader className="champModal champModalHeader" toggle={() => this.setState({shouldClose: true})}>{this.state.name}<br/>{this.state.title}</ModalHeader>
+                        <ModalBody className="champModal champModalBody">
+                            <img src={this.state.image}></img>
+                            <img src={this.state.p.abilityFile}></img>
+                            <p>{this.state.p.ability}</p>
+                            <p>ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                        </ModalBody>
+                    <ModalFooter className="champModal champModalFooter">
+
+                        <Button color="success" onClick={() => this.setState({shouldClose: true})}>Close</Button>
+                    </ModalFooter>
+                    </Modal>
+                    </>
+                );
+            }
+            else
+            {
+                this.getTitle();
+                this.getAbilities();
+                return (
+                    null
+                );
+            }
+        }
+        else
+        {
+            this.state.title = '';
+            return (
+                null
+            );
+        }
+    }
 }
 
 
@@ -47,102 +110,59 @@ class HomepageHandler extends React.Component {
         let length = this.props.files.length;
         this.state = {
             files: files,
+            modalFile: null,
+            modalName: null,
+            showModal: false,
             //index: index,
             length: length,
         };
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(file) {
+        this.setState({
+            modalFile: file,
+            modalName: file.substring(0, file.length - 6),
+            showModal: true,
+        });
     }
 
     renderImage(file) {
-        //console.warn("IN RENDERIMAGE" + file);
         return (
-            <img src={file} width="150px" height="150px"></img>
+            <img src={file} className="homepageIcon" onClick={() => this.handleClick(file)}></img>
         );
     }
 
 
     render() {
         const items = [];
+        var tempItems = [];
         var i;
-        for (i = 0; i < this.state.length; i += 6)
+        for (i = 0; i < this.state.length; i++)
         {
-            if (i + 5 < this.state.length - (this.state.length % 6))
+            tempItems.push(
+                <Col><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2></center>{this.renderImage(this.state.files[i].fileName)}</Col>
+            );
+
+            if (((i + 1) % 6 == 0 || i == this.state.length - 1) && i != 0)
             {
-                items.push( <Row>
-                    <Col>{this.renderImage(this.state.files[i].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[i + 1].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[i + 2].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[i + 3].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[i + 4].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[i + 5].fileName)}</Col>
-                </Row> );
-            }
-            else
-            {
-
-                const tempItems = [];
-                for (let j = i; j < this.state.length; j++)
-                {
-                    tempItems.push(
-                        <Col>{this.renderImage(this.state.files[j].fileName)}</Col>
-                    );
-                }
                 items.push(<Row>{tempItems}</Row>);
-                break;
+                tempItems = [];
             }
         }
 
         return (
             <div>
-                {items}
-            </div>
-        );
-    }
-}
+                <div>
+                    <IconModal image={this.state.modalFile}
+                               name={this.state.modalName}
+                               open={this.state.showModal}
+                    />
+                </div>
 
-class HomepageRow extends React.Component {
-
-    constructor(props) {
-        super(props);
-        let files = this.props.files;
-        let index = this.props.index;
-
-        this.state = {
-            files: files,
-            index: index,
-        };
-    }
-    renderImage(file) {
-        console.warn("IN RENDERIMAGE" + file);
-        return (
-            <img src={file} width="150px" height="150px"></img>
-        );
-    }
-
-    render() {
-        let index = this.state.index;
-        return (
-            <div>
-            <Container className="themed-container" fluid={true}>
-                <Row>
-
-                    <Col>{this.renderImage(this.state.files[index].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[index + 1].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[index + 2].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[index + 3].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[index + 4].fileName)}</Col>
-
-                    <Col>{this.renderImage(this.state.files[index + 5].fileName)}</Col>
-                </Row>
-            </Container>
+                <div>
+                    {items}
+                </div>
             </div>
         );
     }
@@ -158,7 +178,6 @@ class Home extends React.Component {
             files: [],
             index: 0,
         };
-        //runQuery('CharactersID', props)
     }
 
     componentDidMount() {
@@ -180,7 +199,7 @@ class Home extends React.Component {
 
         return (
             <div>
-                <Container className="themed-container" fluid={true}>
+                <Container className="themed-container champ" fluid={true}>
                 <div>
                     <HomepageHandler files={this.state.files} />
                 </div>

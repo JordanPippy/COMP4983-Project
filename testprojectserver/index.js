@@ -49,7 +49,25 @@ app.get('/CharactersID', function (req, res) {
         console.log("Mysql connection success.");
 
     // Executing the MySQL query (select all data from the 'users' table).
-    con.query('SELECT * FROM CharactersID', function (error, results, fields) {
+    con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
+      // If some error occurs, we throw an error.
+      if (error) throw error;
+
+      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results);
+    });
+  });
+});
+
+app.get('/Title/:name', function (req, res) {
+    // Connecting to the database.
+    con.getConnection(function (err, connection) {
+        if (err)
+            throw err;
+        console.log("Mysql connection success.");
+
+    // Executing the MySQL query (select all data from the 'users' table).
+    con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
 
@@ -67,7 +85,25 @@ app.get('/fileNames', function (req, res) {
         console.log("Mysql connection success.");
 
     // Executing the MySQL query (select all data from the 'users' table).
-    con.query('SELECT fileName FROM fileNames', function (error, results, fields) {
+    con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
+      // If some error occurs, we throw an error.
+      if (error) throw error;
+
+      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results);
+    });
+  });
+});
+
+app.get('/Ability/:name', function (req, res) {
+    // Connecting to the database.
+    con.getConnection(function (err, connection) {
+        if (err)
+            throw err;
+        console.log("Mysql connection success.");
+
+    // Executing the MySQL query (select all data from the 'users' table).
+    con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
 

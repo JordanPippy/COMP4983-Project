@@ -125,7 +125,7 @@ class IconModal extends React.Component {
                                             <p>{this.state.stats.AD}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.AS}</p>
+                                            <p>{this.state.stats.attackSpeed}</p>
                                         </td>
                                         <td>
                                             <p>{this.state.stats.RNG}</p>

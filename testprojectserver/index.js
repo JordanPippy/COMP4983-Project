@@ -26,21 +26,10 @@ const con = mysql.createPool({
   user: "root",
   password: "mypw",
   database: "finalProject",
-  connectionLimit: 1
+  connectionLimit: 10
 });
-console.log("Connecting to MySql Database...");
 module.exports = con;
-/*
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected to mysql");
-  sql = "SELECT * FROM fileNames";
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(result[0].fileName);
-  });
-});
-*/
+
 
 app.get('/CharactersID', function (req, res) {
     // Connecting to the database.
@@ -108,13 +97,9 @@ app.get('/', function (req, res) {
     res.sendFile('index.html', { root: "../testprojectweb/build" });
 })
 
-
-
 app.get('*', function (req, res) {
     console.log(req.url);
 })
-
-
 
 
 app.listen(port, function () {

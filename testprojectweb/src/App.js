@@ -4,7 +4,6 @@ import './index.css'
 import { Button } from 'reactstrap';
 import { Container, Row, Col, Modal, ModalTitle, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
-
 class IconModal extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +18,9 @@ class IconModal extends React.Component {
             w: null,
             e: null,
             r: null,
+            stats: null,
             shouldClose: false,
+            fetched: false,
         };
     }
 
@@ -33,6 +34,7 @@ class IconModal extends React.Component {
     }
 
     getAbilities() {
+        console.warn("db req abilities: " + this.state.name);
         fetch('http://192.168.0.12:3000/Ability/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
@@ -41,6 +43,15 @@ class IconModal extends React.Component {
               w: res[4],
               e: res[0],
               r: res[3],
+          })});
+    }
+
+    getStats() {
+        console.warn("db req stats: " + this.state.name);
+        fetch('http://192.168.0.12:3000/Stats/' + this.state.name)
+          .then(response => response.json())
+          .then(res => {this.setState({
+              stats: res[0],
           })});
     }
 
@@ -54,24 +65,185 @@ class IconModal extends React.Component {
         {
             this.state.open = false;
             this.state.shouldClose = false;
+            this.state.fetched = false;
+
+            this.state.title = '';
+            this.state.p = null;
+            this.state.q = null;
+            this.state.w = null;
+            this.state.e = null;
+            this.state.r = null;
+            this.state.stats = null;
+            this.props.handleModalChange();
         }
 
         if (this.state.open)
         {
-            if (this.state.title != '' && this.state.q != null)
+            console.warn("STATE IS OPEN");
+            if (this.state.title != '' && this.state.q != null && this.state.stats != null)
             {
-                console.warn("open: " + this.state.open);
-                console.warn("my image is: " + this.state.image + "\nmy name is: " + this.state.name);
-                console.warn("Title: " + this.state.title);
+                console.warn("SHOULD BE RENDERING");
                 return (
                     <>
-                    <Modal scrollable={true} isOpen={this.state.open} fade="false"  toggle={() => this.setState({shouldClose: true})} onCloseModal={() => this.setState({shouldClose: true})}>
+                    <Modal contentClassName="customModal" dialogClassName="customModal" scrollable={true} isOpen={this.state.open} fade="false"  toggle={() => this.setState({shouldClose: true})} onCloseModal={() => this.setState({shouldClose: true})}>
                     <ModalHeader className="champModal champModalHeader" toggle={() => this.setState({shouldClose: true})}>{this.state.name}<br/>{this.state.title}</ModalHeader>
                         <ModalBody className="champModal champModalBody">
-                            <img src={this.state.image}></img>
-                            <img src={this.state.p.abilityFile}></img>
-                            <p>{this.state.p.ability}</p>
-                            <p>ed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+                            <table>
+                                <td>
+                                    <img src={this.state.image}></img>
+                                </td>
+                                <td>
+                                    <tr>
+                                        <th>HP</th>
+                                        <th>HPR</th>
+                                        <th>MP</th>
+                                        <th>MPR</th>
+                                        <th>MS</th>
+                                        <th>AD</th>
+                                        <th>AS</th>
+                                        <th>RNG</th>
+                                        <th>AR</th>
+                                        <th>MR</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <p>{this.state.stats.HP}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.HPR}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.MP}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.MPR}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.MS}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.AD}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.AS}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.RNG}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.AR}</p>
+                                        </td>
+                                        <td>
+                                            <p>{this.state.stats.MR}</p>
+                                        </td>
+                                    </tr>
+                                </td>
+                            </table>
+
+
+                            <br/><br/>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h1>Passive</h1>
+                                    </td>
+                                    <td>
+                                        <img src={this.state.p.abilityFile}></img>
+                                        <p>{this.state.p.ability}</p>
+                                    </td>
+                                    <td>
+                                        <tr>
+                                            <td>
+                                                <p>{this.state.p.abilityDescription}</p>
+                                            </td>
+                                            <td>
+                                                <p>{this.state.p.abilityMath}</p>
+                                            </td>
+                                        </tr>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h1>Q</h1>
+                                    </td>
+                                    <td>
+                                        <img src={this.state.q.abilityFile}></img>
+                                        <p>{this.state.q.ability}</p>
+                                    </td>
+                                    <td>
+                                        <tr>
+                                            <td>
+                                                <p>{this.state.q.abilityDescription}</p>
+                                            </td>
+                                            <td>
+                                                <p>{this.state.q.abilityMath}</p>
+                                            </td>
+                                        </tr>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h1>W</h1>
+                                    </td>
+                                    <td>
+                                        <img src={this.state.w.abilityFile}></img>
+                                        <p>{this.state.w.ability}</p>
+                                    </td>
+                                    <td>
+                                        <tr>
+                                            <td>
+                                                <p>{this.state.w.abilityDescription}</p>
+                                            </td>
+                                            <td>
+                                                <p>{this.state.w.abilityMath}</p>
+                                            </td>
+                                        </tr>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h1>E</h1>
+                                    </td>
+                                    <td>
+                                        <img src={this.state.e.abilityFile}></img>
+                                        <p>{this.state.e.ability}</p>
+                                    </td>
+                                    <td>
+                                        <tr>
+                                            <td>
+                                                <p>{this.state.e.abilityDescription}</p>
+                                            </td>
+                                            <td>
+                                                <p>{this.state.e.abilityMath}</p>
+                                            </td>
+                                        </tr>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <h1>R</h1>
+                                    </td>
+                                    <td>
+                                        <img src={this.state.r.abilityFile}></img>
+                                        <p>{this.state.r.ability}</p>
+                                    </td>
+                                    <td>
+                                        <tr>
+                                            <td>
+                                                <p>{this.state.r.abilityDescription}</p>
+                                            </td>
+                                            <td>
+                                                <p>{this.state.r.abilityMath}</p>
+                                            </td>
+                                        </tr>
+                                    </td>
+                                </tr>
+
+                            </table>
                         </ModalBody>
                     <ModalFooter className="champModal champModalFooter">
 
@@ -83,8 +255,17 @@ class IconModal extends React.Component {
             }
             else
             {
-                this.getTitle();
-                this.getAbilities();
+                console.warn("something was null, fetched = " + this.state.fetched);
+                if (! this.state.fetched)
+                {
+                    this.state.fetched = true;
+                    if (this.state.title == '')
+                        this.getTitle();
+                    if (this.state.q == null)
+                        this.getAbilities();
+                    if (this.state.stats == null)
+                        this.getStats();
+                }
                 return (
                     null
                 );
@@ -113,10 +294,14 @@ class HomepageHandler extends React.Component {
             modalFile: null,
             modalName: null,
             showModal: false,
-            //index: index,
             length: length,
         };
         this.handleClick = this.handleClick.bind(this);
+        this.handleModalChange = this.handleModalChange.bind(this);
+    }
+
+    handleModalChange() {
+        this.setState({showModal: false});
     }
 
     handleClick(file) {
@@ -140,9 +325,13 @@ class HomepageHandler extends React.Component {
         var i;
         for (i = 0; i < this.state.length; i++)
         {
-            tempItems.push(
-                <Col><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2></center>{this.renderImage(this.state.files[i].fileName)}</Col>
-            );
+            let name1 = this.props.search;
+            let name2 = this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6);
+            if (name2.indexOf(name1) >= 0) {
+                tempItems.push(
+                    <Col><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>
+                );
+            }
 
             if (((i + 1) % 6 == 0 || i == this.state.length - 1) && i != 0)
             {
@@ -157,6 +346,7 @@ class HomepageHandler extends React.Component {
                     <IconModal image={this.state.modalFile}
                                name={this.state.modalName}
                                open={this.state.showModal}
+                               handleModalChange={this.handleModalChange}
                     />
                 </div>
 
@@ -177,6 +367,7 @@ class Home extends React.Component {
         this.state = {
             files: [],
             index: 0,
+            search: '',
         };
     }
 
@@ -189,11 +380,12 @@ class Home extends React.Component {
           });
     }
 
+    searchSpace(event) {
+        let keyword = event.target.value;
+        this.setState({search: keyword});
+    }
+
     render() {
-        for (let i = 0; i < this.state.files.length; i++)
-        {
-            console.warn(this.state.files[i].fileName);
-        }
         if (!(this.state.files.length > 0))
             return null;
 
@@ -201,7 +393,14 @@ class Home extends React.Component {
             <div>
                 <Container className="themed-container champ" fluid={true}>
                 <div>
-                    <HomepageHandler files={this.state.files} />
+                <center>
+                <input type="text" placeholder="Enter item to be searched" value={this.state.search} onChange={(e)=>this.searchSpace(e)} />
+                </center>
+                </div>
+                <div>
+                    <HomepageHandler files={this.state.files}
+                                     search={this.state.search}
+                    />
                 </div>
                 </Container>
             </div>

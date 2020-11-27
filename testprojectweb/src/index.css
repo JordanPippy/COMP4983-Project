@@ -25,3 +25,16 @@ body {
 .champModal {
     background-color: #BBBBBB;
 }
+
+table {
+    width: "100%";
+}
+
+.modal-dialog {
+    width: 90vw;
+    max-width: 90vw;
+}
+
+table, th, td{
+  border: 1px solid black;
+}

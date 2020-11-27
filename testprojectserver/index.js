@@ -9,6 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../build')));
 app.use(express.static(path.join(__dirname, './assets/champions')));
+app.use(express.static(path.join(__dirname, './assets/abilities')));
 
 
 const hostname = '127.0.0.1';
@@ -24,10 +25,11 @@ const con = mysql.createPool({
   host: "localhost",
   user: "root",
   password: "mypw",
-  database: "finalProject"
+  database: "finalProject",
+  connectionLimit: 1
 });
-
-//module.exports = pool;
+console.log("Connecting to MySql Database...");
+module.exports = con;
 /*
 con.connect(function(err) {
   if (err) throw err;
@@ -40,14 +42,8 @@ con.connect(function(err) {
 });
 */
 
-
 app.get('/CharactersID', function (req, res) {
     // Connecting to the database.
-    con.getConnection(function (err, connection) {
-        if (err)
-            throw err;
-        console.log("Mysql connection success.");
-
     // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
@@ -55,16 +51,11 @@ app.get('/CharactersID', function (req, res) {
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
-    });
   });
 });
 
 app.get('/Title/:name', function (req, res) {
     // Connecting to the database.
-    con.getConnection(function (err, connection) {
-        if (err)
-            throw err;
-        console.log("Mysql connection success.");
 
     // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
@@ -73,17 +64,11 @@ app.get('/Title/:name', function (req, res) {
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
-    });
   });
 });
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
-    con.getConnection(function (err, connection) {
-        if (err)
-            throw err;
-        console.log("Mysql connection success.");
-
     // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
@@ -91,17 +76,11 @@ app.get('/fileNames', function (req, res) {
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
-    });
   });
 });
 
 app.get('/Ability/:name', function (req, res) {
     // Connecting to the database.
-    con.getConnection(function (err, connection) {
-        if (err)
-            throw err;
-        console.log("Mysql connection success.");
-
     // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
       // If some error occurs, we throw an error.
@@ -109,7 +88,18 @@ app.get('/Ability/:name', function (req, res) {
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
-    });
+  });
+});
+
+app.get('/Stats/:name', function (req, res) {
+    // Connecting to the database.
+    // Executing the MySQL query (select all data from the 'users' table).
+    con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results, fields) {
+      // If some error occurs, we throw an error.
+      if (error) throw error;
+
+      // Getting the 'response' from the database and sending it to our route. This is were the data is.
+      res.send(results);
   });
 });
 

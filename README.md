@@ -1,10 +1,11 @@
 INSTALL
 cd ./testprojectweb
 npm install
+npm run build
 cd ../testprojectserver
 npm install
-cd ../testprojectweb 
-npm run build 
-cd ../testprojectserver 
 node index.js
 
+Browse to http://localhost:3000
+
+Pray it works.

@@ -150,6 +150,7 @@ class IconModal extends React.Component {
                                     <td>
                                         <img src={this.state.p.abilityFile}></img>
                                         <p>{this.state.p.ability}</p>
+                                        <p>{this.state.p.abilityCooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
@@ -170,6 +171,7 @@ class IconModal extends React.Component {
                                     <td>
                                         <img src={this.state.q.abilityFile}></img>
                                         <p>{this.state.q.ability}</p>
+                                        <p>{this.state.q.abilityCooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
@@ -190,6 +192,7 @@ class IconModal extends React.Component {
                                     <td>
                                         <img src={this.state.w.abilityFile}></img>
                                         <p>{this.state.w.ability}</p>
+                                        <p>{this.state.w.abilityCooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
@@ -210,6 +213,7 @@ class IconModal extends React.Component {
                                     <td>
                                         <img src={this.state.e.abilityFile}></img>
                                         <p>{this.state.e.ability}</p>
+                                        <p>{this.state.e.abilityCooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
@@ -230,6 +234,7 @@ class IconModal extends React.Component {
                                     <td>
                                         <img src={this.state.r.abilityFile}></img>
                                         <p>{this.state.r.ability}</p>
+                                        <p>{this.state.r.abilityCooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
@@ -332,13 +337,15 @@ class HomepageHandler extends React.Component {
                     <Col><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>
                 );
             }
-
+            /*
             if (((i + 1) % 6 == 0 || i == this.state.length - 1) && i != 0)
             {
-                items.push(<Row>{tempItems}</Row>);
+                items.push(<Row xs={6}>{tempItems}</Row>);
                 tempItems = [];
             }
+            */
         }
+        items.push(<Row xs={3} md={6}>{tempItems}</Row>);
 
         return (
             <div>

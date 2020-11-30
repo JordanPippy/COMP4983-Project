@@ -6,8 +6,8 @@
 }
 
 .homepageIcon {
-    height: 200px;
-    width: 200px;
+    height: 100%;
+    width: 100%;
   padding-bottom: 50px;
   background-color: #BBBBBB;
   transition: transform .2s; /* Animation */
@@ -31,8 +31,10 @@ table {
 }
 
 .modal-dialog {
-    width: 90vw;
-    max-width: 90vw;
+    /*width: 90vw;
+    max-width: 90vw; */
+    width: 90%;
+    max-width: 90%;
 }
 
 table, th, td{

@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, './assets/abilities')));
 
 
 const hostname = '127.0.0.1';
-const port = 3000;
+const port = process.env.PORT;
 
 const mysql = require('mysql');
 app.use(bodyParser.urlencoded({ extended: false }));

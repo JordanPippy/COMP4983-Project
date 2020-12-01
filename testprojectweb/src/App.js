@@ -5,7 +5,7 @@ import { Button } from 'reactstrap';
 import { Container, Row, Col, Modal, ModalTitle, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 //THIS IS THE CONNECTION FOR THE DATABASE. IT NEEDS TO BE CHANGED WHEN USING ON A DIFFERENT COMPUTER
-const dbPath = 'https://league-of-react.herokuapp.com';
+const dbPath = './';
 
 /*
  * IconModal: Handles the onClick functionality of all the characters on screen.

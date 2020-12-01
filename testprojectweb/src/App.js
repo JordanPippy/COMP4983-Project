@@ -400,7 +400,7 @@ class Home extends React.Component {
 
     //fetch file paths from database on load.
     componentDidMount() {
-        fetch(dbPath + '/fileNames')
+        fetch(dbPath + 'fileNames')
           .then(response => response.json())
           .then(res => {
               this.setState({files: res});

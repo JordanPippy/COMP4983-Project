@@ -12,7 +12,7 @@ app.use(express.static(path.join(__dirname, './assets/champions')));
 app.use(express.static(path.join(__dirname, './assets/abilities')));
 
 
-const hostname = '127.0.0.1';
+const hostname = 'de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com';
 const port = process.env.PORT;
 
 const mysql = require('mysql');
@@ -22,10 +22,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('./testprojectweb/build'));
 
 const con = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "mypw",
-  database: "finalProject",
+  host: "de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+  user: "e846nrnb17zvxmo8",
+  password: "mjxnpkmrqx3wudmt",
+  database: "du7bw2qg8ts4oxmj",
   connectionLimit: 10
 });
 module.exports = con;

@@ -5,7 +5,7 @@ import { Button } from 'reactstrap';
 import { Container, Row, Col, Modal, ModalTitle, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 //THIS IS THE CONNECTION FOR THE DATABASE. IT NEEDS TO BE CHANGED WHEN USING ON A DIFFERENT COMPUTER
-const dbPath = 'de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com';
+const dbPath = 'de1tmi3t63foh7fa.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306';
 
 /*
  * IconModal: Handles the onClick functionality of all the characters on screen.

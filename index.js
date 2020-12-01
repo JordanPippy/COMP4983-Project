@@ -101,11 +101,4 @@ app.get('*', function (req, res) {
 app.listen(port, function () {
     console.log('The server running on Port '+ port);
     console.log('Dirname: ' + __dirname);
-    con.query('SELECT * FROM CharactersID ORDER BY characterName ASC limit 5', function (error, results, fields) {
-      // If some error occurs, we throw an error.
-      if (error) throw error;
-
-      // Getting the 'response' from the database and sending it to our route. This is were the data is.
-      console.log(results);
-  });
 })

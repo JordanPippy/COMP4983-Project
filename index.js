@@ -7,7 +7,7 @@ const cors = require('cors');
 const app = express();
 
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../build')));
+app.use(express.static(path.join(__dirname, './build')));
 app.use(express.static(path.join(__dirname, './assets/champions')));
 app.use(express.static(path.join(__dirname, './assets/abilities')));
 
@@ -19,7 +19,7 @@ const mysql = require('mysql');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-app.use(express.static('../testprojectweb/build'));
+app.use(express.static('./testprojectweb/build'));
 
 const con = mysql.createPool({
   host: "localhost",

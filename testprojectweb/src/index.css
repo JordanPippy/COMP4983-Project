@@ -33,9 +33,11 @@ table {
 .modal-dialog {
     /*width: 90vw;
     max-width: 90vw; */
-    width: 90%;
-    max-width: 90%;
+    width: 100%;
+    max-width: 100%;
 }
+
+
 
 table, th, td{
   border: 1px solid black;

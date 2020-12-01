@@ -4,6 +4,14 @@ import './index.css'
 import { Button } from 'reactstrap';
 import { Container, Row, Col, Modal, ModalTitle, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
+//THIS IS THE CONNECTION FOR THE DATABASE. IT NEEDS TO BE CHANGED WHEN USING ON A DIFFERENT COMPUTER
+const dbPath = 'http://192.168.0.9:3000';
+
+/*
+ * IconModal: Handles the onClick functionality of all the characters on screen.
+ *            It is responsible for querying the database to get all of the information about the 
+ *            clicked character, also for opening and closing itself.
+*/
 class IconModal extends React.Component {
     constructor(props) {
         super(props);
@@ -24,9 +32,10 @@ class IconModal extends React.Component {
         };
     }
 
+    //Below are database queries, they fetch all of the needed data from the back-end.
     getTitle() {
         console.warn("db req name: " + this.state.name);
-        fetch('http://192.168.0.12:3000/Title/' + this.state.name)
+        fetch(dbPath + '/Title/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
               title: res[0].title,
@@ -35,7 +44,7 @@ class IconModal extends React.Component {
 
     getAbilities() {
         console.warn("db req abilities: " + this.state.name);
-        fetch('http://192.168.0.12:3000/Ability/' + this.state.name)
+        fetch(dbPath + '/Ability/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
               p: res[1],
@@ -48,19 +57,21 @@ class IconModal extends React.Component {
 
     getStats() {
         console.warn("db req stats: " + this.state.name);
-        fetch('http://192.168.0.12:3000/Stats/' + this.state.name)
+        fetch(dbPath + '/Stats/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
               stats: res[0],
           })});
     }
-
+    //End Database queries.
 
     render() {
         this.state.image = this.props.image;
         this.state.name = this.props.name;
         this.state.open = this.props.open;
 
+        //Since closing does a setState, it will re-render itself. That means that it "should" close.
+        //This if statement makes the modal null so that it is not sitting on loads of data.
         if (this.state.shouldClose)
         {
             this.state.open = false;
@@ -77,12 +88,14 @@ class IconModal extends React.Component {
             this.props.handleModalChange();
         }
 
+        //If modal is open, open the modal. *duh*
         if (this.state.open)
         {
             console.warn("STATE IS OPEN");
+            //Checking if we have all the data, else get all the data.
             if (this.state.title != '' && this.state.q != null && this.state.stats != null)
             {
-                console.warn("SHOULD BE RENDERING");
+                //Renders the modal, I recommend you do NOT touch this part as it is a pain to get right.
                 return (
                     <>
                     <Modal contentClassName="customModal" dialogClassName="customModal" scrollable={true} isOpen={this.state.open} fade="false"  toggle={() => this.setState({shouldClose: true})} onCloseModal={() => this.setState({shouldClose: true})}>
@@ -90,7 +103,7 @@ class IconModal extends React.Component {
                         <ModalBody className="champModal champModalBody">
                             <table>
                                 <td>
-                                    <img src={this.state.image}></img>
+                                    <center><img src={this.state.image} className="modalIcon"></img></center>
                                 </td>
                                 <td>
                                     <tr>
@@ -258,9 +271,11 @@ class IconModal extends React.Component {
                     </>
                 );
             }
+            //Data was missing, lets fetch it.
             else
             {
-                console.warn("something was null, fetched = " + this.state.fetched);
+                //Small optimization here, will only fetch something once, and will not fetch things
+                //that are already fetched.
                 if (! this.state.fetched)
                 {
                     this.state.fetched = true;
@@ -271,14 +286,16 @@ class IconModal extends React.Component {
                     if (this.state.stats == null)
                         this.getStats();
                 }
+                //Don't want to return anything if we are still gathering data. This will make the modal enter
+                //"spin" state. It will keep returning null untill we have the data.
                 return (
                     null
                 );
             }
         }
+        //Modal is closed.
         else
         {
-            this.state.title = '';
             return (
                 null
             );
@@ -286,7 +303,10 @@ class IconModal extends React.Component {
     }
 }
 
-
+/*
+ * This handles all of the icons and the search-bar on the main page. 
+ * It gets rendered from the "main" class, but this is the big bad boss man.
+ */
 class HomepageHandler extends React.Component {
 
     constructor(props) {
@@ -301,14 +321,17 @@ class HomepageHandler extends React.Component {
             showModal: false,
             length: length,
         };
+
+        //method bindings.. Whatever that means.
         this.handleClick = this.handleClick.bind(this);
         this.handleModalChange = this.handleModalChange.bind(this);
     }
-
+    //This method is passed to IconModal, so it can tell us when it closed.
     handleModalChange() {
         this.setState({showModal: false});
     }
 
+    //Gets the click information ready for the modal to open.
     handleClick(file) {
         this.setState({
             modalFile: file,
@@ -317,13 +340,14 @@ class HomepageHandler extends React.Component {
         });
     }
 
+    //Embeds the image into an image tag.
     renderImage(file) {
         return (
             <img src={file} className="homepageIcon" onClick={() => this.handleClick(file)}></img>
         );
     }
 
-
+    //This gets all of the images and titles into a Row Col setup and renders it.
     render() {
         const items = [];
         var tempItems = [];
@@ -337,16 +361,12 @@ class HomepageHandler extends React.Component {
                     <Col><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>
                 );
             }
-            /*
-            if (((i + 1) % 6 == 0 || i == this.state.length - 1) && i != 0)
-            {
-                items.push(<Row xs={6}>{tempItems}</Row>);
-                tempItems = [];
-            }
-            */
         }
         items.push(<Row xs={3} md={6}>{tempItems}</Row>);
 
+        //Little interesting thing here. The modal gets rendered whether or not it is open.
+        //The difference is, the modal will be null. This is a little different than rendering it 
+        //if and only if we have data.
         return (
             <div>
                 <div>
@@ -365,7 +385,7 @@ class HomepageHandler extends React.Component {
     }
 }
 
-
+//Official Main Class. (Unoffical does nothing class.)
 class Home extends React.Component {
     constructor(props)
     {
@@ -378,15 +398,16 @@ class Home extends React.Component {
         };
     }
 
+    //fetch file paths from database on load.
     componentDidMount() {
-        console.warn("mount?")
-        fetch('http://192.168.0.12:3000/fileNames')
+        fetch(dbPath + '/fileNames')
           .then(response => response.json())
           .then(res => {
               this.setState({files: res});
           });
     }
 
+    //handles updating the searchbar (pretty nifty ;))
     searchSpace(event) {
         let keyword = event.target.value;
         this.setState({search: keyword});
@@ -396,6 +417,9 @@ class Home extends React.Component {
         if (!(this.state.files.length > 0))
             return null;
 
+        //In all liklieness the first few times it renders, the HomepageHandler will be null.
+        //Thats because it is pulling quite a bit of data from the database. It will display it whenever it
+        //actually gets the data.
         return (
             <div>
                 <Container className="themed-container champ" fluid={true}>
@@ -415,4 +439,5 @@ class Home extends React.Component {
     }
 }
 
+//I guess React needs this line apparently. It probably does something.
 export default Home;

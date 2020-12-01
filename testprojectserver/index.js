@@ -33,7 +33,7 @@ module.exports = con;
 
 app.get('/CharactersID', function (req, res) {
     // Connecting to the database.
-    // Executing the MySQL query (select all data from the 'users' table).
+
     con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -45,8 +45,6 @@ app.get('/CharactersID', function (req, res) {
 
 app.get('/Title/:name', function (req, res) {
     // Connecting to the database.
-
-    // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -58,7 +56,6 @@ app.get('/Title/:name', function (req, res) {
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
-    // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -70,7 +67,6 @@ app.get('/fileNames', function (req, res) {
 
 app.get('/Ability/:name', function (req, res) {
     // Connecting to the database.
-    // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -82,7 +78,6 @@ app.get('/Ability/:name', function (req, res) {
 
 app.get('/Stats/:name', function (req, res) {
     // Connecting to the database.
-    // Executing the MySQL query (select all data from the 'users' table).
     con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;

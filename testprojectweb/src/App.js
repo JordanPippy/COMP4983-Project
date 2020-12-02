@@ -422,6 +422,8 @@ class Home extends React.Component {
                 <center>
                 <input type="text" placeholder="Enter item to be searched" value={this.state.search} onChange={(e)=>this.searchSpace(e)} />
                 </center>
+                <br />
+                <br />
                 </div>
                 <div>
                     <HomepageHandler files={this.state.files}

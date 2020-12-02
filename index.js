@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+app.enable('trust proxy');
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, './build')));

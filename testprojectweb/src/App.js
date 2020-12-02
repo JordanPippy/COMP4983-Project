@@ -349,8 +349,8 @@ class HomepageHandler extends React.Component {
         var i;
         for (i = 0; i < this.state.length; i++)
         {
-            let name1 = this.props.search;
-            let name2 = this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6);
+            let name1 = this.props.search.toLowerCase();
+            let name2 = this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6).toLowerCase();
             if (name2.indexOf(name1) >= 0) {
                 tempItems.push(
                     <Col className="animate"><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>

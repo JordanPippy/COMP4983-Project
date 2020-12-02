@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 
 app.use(express.static('./testprojectweb/build'));
-/*
+
 const con = mysql.createPool({
   host: process.env.JAWSDB_URL,
   user: "e846nrnb17zvxmo8",
@@ -30,8 +30,8 @@ const con = mysql.createPool({
   connectionLimit: 10
 });
 module.exports = con;
-*/
-const con = mysql.createConnection(process.env.JAWSDB_URL);
+
+//const con = mysql.createConnection(process.env.JAWSDB_URL);
 
 app.get('/CharactersID', function (req, res) {
     // Connecting to the database.

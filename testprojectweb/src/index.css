@@ -12,7 +12,6 @@
 
 .animate {
   padding-bottom: 50px;
-  background-color: #BBBBBB;
   transition: transform .2s; /* Animation */
 }
 

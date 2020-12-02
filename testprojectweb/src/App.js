@@ -15,7 +15,6 @@ const dbPath = '/';
 class IconModal extends React.Component {
     constructor(props) {
         super(props);
-        console.warn("modal");
         this.state = {
             image: this.props.image,
             name: this.props.name,
@@ -34,7 +33,6 @@ class IconModal extends React.Component {
 
     //Below are database queries, they fetch all of the needed data from the back-end.
     getTitle() {
-        console.warn("db req name: " + this.state.name);
         fetch(dbPath + 'title/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
@@ -43,7 +41,6 @@ class IconModal extends React.Component {
     }
 
     getAbilities() {
-        console.warn("db req abilities: " + this.state.name);
         fetch(dbPath + 'ability/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
@@ -56,7 +53,6 @@ class IconModal extends React.Component {
     }
 
     getStats() {
-        console.warn("db req stats: " + this.state.name);
         fetch(dbPath + 'stats/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
@@ -91,7 +87,6 @@ class IconModal extends React.Component {
         //If modal is open, open the modal. *duh*
         if (this.state.open)
         {
-            console.warn("STATE IS OPEN");
             //Checking if we have all the data, else get all the data.
             if (this.state.title != '' && this.state.q != null && this.state.stats != null)
             {

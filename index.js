@@ -33,11 +33,10 @@ const con = mysql.createPool({
 module.exports = con;
 */
 
-const con = mysql.createConnection(process.env.JAWSDB_URL);
 
 app.get('/charactersID', function (req, res) {
     // Connecting to the database.
-
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -50,6 +49,7 @@ app.get('/charactersID', function (req, res) {
 
 app.get('/title/:name', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -62,6 +62,7 @@ app.get('/title/:name', function (req, res) {
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -74,6 +75,7 @@ app.get('/fileNames', function (req, res) {
 
 app.get('/ability/:name', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -86,6 +88,7 @@ app.get('/ability/:name', function (req, res) {
 
 app.get('/stats/:name', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;

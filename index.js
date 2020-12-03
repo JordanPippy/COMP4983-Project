@@ -45,6 +45,7 @@ app.get('/charactersID', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/title/:name', function (req, res) {
@@ -56,6 +57,7 @@ app.get('/title/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/fileNames', function (req, res) {
@@ -67,6 +69,7 @@ app.get('/fileNames', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/ability/:name', function (req, res) {
@@ -78,6 +81,7 @@ app.get('/ability/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/stats/:name', function (req, res) {
@@ -89,6 +93,7 @@ app.get('/stats/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 

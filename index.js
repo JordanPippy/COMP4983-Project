@@ -126,5 +126,5 @@ app.get('*', function (req, res) {
 app.listen(port, function () {
     console.log('The server running on Port '+ port);
     console.log('Dirname: ' + __dirname);
-    console.log(process.env.DATABASE_UR);
+    console.log(process.env.DATABASE_URL);
 })

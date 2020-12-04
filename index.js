@@ -16,8 +16,10 @@ app.use(express.static(path.join(__dirname, './assets/abilities')));
 const hostname = process.env.JAWSDB_URL;
 const port = process.env.PORT;
 
-const mysql = require('mysql');
-const con = mysql.createConnection(process.env.JAWSDB_URL);
+//const mysql = require('mysql');
+const pg = require('pg');
+//const con = mysql.createConnection(process.env.JAWSDB_URL);
+const con = pg.connect(process.env.DATABASE_URL);
 app.use(bodyParser.urlencoded({ extended: false }));
 
 

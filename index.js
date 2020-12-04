@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const app = express();
-const io = require('socket.io').listen(process.env.PORT);
 app.enable('trust proxy');
 
 app.use(cors());
@@ -33,10 +32,11 @@ const con = mysql.createPool({
 });
 module.exports = con;
 */
-const con = mysql.createConnection(process.env.JAWSDB_URL);
+
 
 app.get('/charactersID', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -44,10 +44,12 @@ app.get('/charactersID', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/title/:name', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -55,10 +57,12 @@ app.get('/title/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -66,10 +70,12 @@ app.get('/fileNames', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/ability/:name', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -77,10 +83,12 @@ app.get('/ability/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 app.get('/stats/:name', function (req, res) {
     // Connecting to the database.
+    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -88,6 +96,7 @@ app.get('/stats/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
+  con.end();
 });
 
 
@@ -98,12 +107,6 @@ app.get('/', function (req, res) {
 app.get('*', function (req, res) {
     console.log(req.url);
 })
-
-io.sockets.on('disconnect', function() {
-  con.end();
-  console.log("HEY WE FUCKIN EXITED");
-});
-
 
 app.listen(port, function () {
     console.log('The server running on Port '+ port);

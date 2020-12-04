@@ -11,12 +11,13 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './build')));
 app.use(express.static(path.join(__dirname, './assets/champions')));
 app.use(express.static(path.join(__dirname, './assets/abilities')));
-const con = mysql.createConnection(process.env.JAWSDB_URL);
+
 
 const hostname = process.env.JAWSDB_URL;
 const port = process.env.PORT;
 
 const mysql = require('mysql');
+const con = mysql.createConnection(process.env.JAWSDB_URL);
 app.use(bodyParser.urlencoded({ extended: false }));
 
 

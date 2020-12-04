@@ -91,7 +91,7 @@ app.get('/stats/:name', function (req, res) {
 
 
 app.get('/', function (req, res) {
-    res.sendFile('index.html', { root: "../testprojectweb/build" });
+    res.sendFile('index.html', { root: "./testprojectweb/build" });
 })
 
 app.get('*', function (req, res) {

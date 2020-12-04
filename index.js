@@ -30,8 +30,9 @@ con.connect();
 */
 
 //const con = mysql.createConnection(process.env.JAWSDB_URL);
+console.log("before connection");
 const pool = new Pool(process.env.DATABASE_URL);
-
+console.log("after connection");
 app.use(bodyParser.urlencoded({ extended: false }));
 
 

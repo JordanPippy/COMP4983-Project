@@ -137,7 +137,7 @@ app.get('/fileNames', function (req, res) {
   con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', (error, results) => {
     // If some error occurs, we throw an error.
     if (error) throw error;
-
+    console.log(results);
     // Getting the 'response' from the database and sending it to our route. This is were the data is.
     res.send(results);
   });

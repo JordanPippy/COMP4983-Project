@@ -16,23 +16,14 @@ app.use(express.static(path.join(__dirname, './assets/abilities')));
 const hostname = process.env.JAWSDB_URL;
 const port = process.env.PORT;
 
-//const mysql = require('mysql');
-const { Client } = require('pg');
-//const con = mysql.createConnection(process.env.JAWSDB_URL);
+const mysql = require('mysql');
+
+const con = mysql.createConnection(process.env.JAWSDB_URL);
 //const con = pg.connect(process.env.DATABASE_URL, function(err, client) {});
 
-const con = new Client({
-  connectionString: process.env.DATABASE_URL,
-  //ssl: true,
-});
 
-con.connect(err => {
-  if (err) {
-    console.error('connection error', err.stack)
-  } else {
-    console.log('connected')
-  }
-})
+
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -50,7 +41,6 @@ const con = mysql.createPool({
 module.exports = con;
 */
 
-/*
 
 app.get('/charactersID', function (req, res) {
     // Connecting to the database.
@@ -107,63 +97,6 @@ app.get('/stats/:name', function (req, res) {
   });
 });
 
-*/
-
-
-app.get('/charactersID', function (req, res) {
-  // Connecting to the database.
-  con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', (error, results)  => {
-    // If some error occurs, we throw an error.
-    if (error) throw error;
-
-    // Getting the 'response' from the database and sending it to our route. This is were the data is.
-    res.send(results);
-  });
-});
-
-app.get('/title/:name', function (req, res) {
-  // Connecting to the database.
-  con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , (error, results) => {
-    // If some error occurs, we throw an error.
-    if (error) throw error;
-
-    // Getting the 'response' from the database and sending it to our route. This is were the data is.
-    res.send(results);
-  });
-});
-
-app.get('/fileNames', function (req, res) {
-  // Connecting to the database.
-  con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', (error, results) => {
-    // If some error occurs, we throw an error.
-    if (error) throw error;
-    console.log(results);
-    // Getting the 'response' from the database and sending it to our route. This is were the data is.
-    res.send(results);
-  });
-});
-
-app.get('/ability/:name', function (req, res) {
-  // Connecting to the database.
-  con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', (error, results) => {
-    // If some error occurs, we throw an error.
-    if (error) throw error;
-
-    // Getting the 'response' from the database and sending it to our route. This is were the data is.
-    res.send(results);
-  });
-});
-
-app.get('/stats/:name', function (req, res) {
-  // Connecting to the database.
-  con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', (error, results) => {
-    // If some error occurs, we throw an error.
-    if (error) throw error;
-
-    // Getting the 'response' from the database and sending it to our route. This is were the data is.
-    res.send(results);
-  });
-});
 
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: "./testprojectweb/build" });

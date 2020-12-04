@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, './build')));
 app.use(express.static(path.join(__dirname, './assets/champions')));
 app.use(express.static(path.join(__dirname, './assets/abilities')));
-
+const con = mysql.createConnection(process.env.JAWSDB_URL);
 
 const hostname = process.env.JAWSDB_URL;
 const port = process.env.PORT;
@@ -36,7 +36,6 @@ module.exports = con;
 
 app.get('/charactersID', function (req, res) {
     // Connecting to the database.
-    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -44,12 +43,10 @@ app.get('/charactersID', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
-  con.end();
 });
 
 app.get('/title/:name', function (req, res) {
     // Connecting to the database.
-    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -57,12 +54,10 @@ app.get('/title/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
-  con.end();
 });
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
-    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -70,12 +65,10 @@ app.get('/fileNames', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
-  con.end();
 });
 
 app.get('/ability/:name', function (req, res) {
     // Connecting to the database.
-    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -83,12 +76,10 @@ app.get('/ability/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
-  con.end();
 });
 
 app.get('/stats/:name', function (req, res) {
     // Connecting to the database.
-    var con = mysql.createConnection(process.env.JAWSDB_URL);
     con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results, fields) {
       // If some error occurs, we throw an error.
       if (error) throw error;
@@ -96,7 +87,6 @@ app.get('/stats/:name', function (req, res) {
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
       res.send(results);
   });
-  con.end();
 });
 
 

@@ -98,7 +98,7 @@ app.get('*', function (req, res) {
     console.log(req.url);
 })
 
-process.on('exit', function() {
+process.on('SIGHUP', function() {
   con.end();
   console.log("HEY WE FUCKIN EXITED");
 });

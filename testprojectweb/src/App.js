@@ -88,9 +88,6 @@ class IconModal extends React.Component {
         //If modal is open, open the modal. *duh*
         if (this.state.open)
         {
-            console.warn(this.state.title);
-            console.warn(this.state.q);
-            console.warn(this.state.stats);
             //Checking if we have all the data, else get all the data.
             if (this.state.title != '' && this.state.q != null && this.state.stats != null)
             {
@@ -419,7 +416,6 @@ class Home extends React.Component {
         //In all liklieness the first few times it renders, the HomepageHandler will be null.
         //Thats because it is pulling quite a bit of data from the database. It will display it whenever it
         //actually gets the data.
-        console.warn(this.state.files[0].filename);
         return (
             <div>
                 <Container className="themed-container champ" fluid={true}>

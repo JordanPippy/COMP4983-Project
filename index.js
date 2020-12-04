@@ -18,7 +18,7 @@ const port = process.env.PORT;
 
 //const mysql = require('mysql');
 
-const pg = require('pg');
+const { Pool } = require('pg');
 
 /*
 const con = new Client({
@@ -30,7 +30,7 @@ con.connect();
 */
 
 //const con = mysql.createConnection(process.env.JAWSDB_URL);
-const pool = new pg.Pool(process.env.DATABASE_URL);
+const pool = new Pool(process.env.DATABASE_URL);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -30,6 +30,13 @@ con.connect();
 */
 
 //const con = mysql.createConnection(process.env.JAWSDB_URL);
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+app.use(express.static('./testprojectweb/build'));
+
+
 let connString = process.env.DATABASE_URL;
 
 const { Pool } = require('pg');
@@ -40,10 +47,6 @@ const pool = new Pool({
 });
 module.exports = {pool};
 console.log("after connection");
-app.use(bodyParser.urlencoded({ extended: false }));
-
-
-app.use(express.static('./testprojectweb/build'));
 
 /*
 const con = mysql.createPool({

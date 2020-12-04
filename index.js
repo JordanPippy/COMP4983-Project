@@ -16,14 +16,19 @@ app.use(express.static(path.join(__dirname, './assets/abilities')));
 const hostname = process.env.JAWSDB_URL;
 const port = process.env.PORT;
 
-const mysql = require('mysql');
+//const mysql = require('mysql');
 
-const con = mysql.createConnection(process.env.JAWSDB_URL);
+const { Client } = require('pg');
+
+const con = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: true,
+});
+
+con.connect();
+
+//const con = mysql.createConnection(process.env.JAWSDB_URL);
 //const con = pg.connect(process.env.DATABASE_URL, function(err, client) {});
-
-
-
-
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

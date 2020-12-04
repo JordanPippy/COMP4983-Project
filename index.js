@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
 const app = express();
+const io = require('socket.io').listen(process.env.PORT);
 app.enable('trust proxy');
 
 app.use(cors());
@@ -98,7 +99,7 @@ app.get('*', function (req, res) {
     console.log(req.url);
 })
 
-process.on('SIGHUP', function() {
+io.sockets.on('disconnect', function() {
   con.end();
   console.log("HEY WE FUCKIN EXITED");
 });

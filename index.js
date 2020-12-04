@@ -48,7 +48,7 @@ const con = mysql.createPool({
 module.exports = con;
 */
 
-
+/*
 app.get('/charactersID', function (req, res) {
     // Connecting to the database.
     con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
@@ -70,6 +70,7 @@ app.get('/title/:name', function (req, res) {
       res.send(results);
   });
 });
+*/
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
@@ -87,7 +88,7 @@ app.get('/fileNames', function (req, res) {
     });
     })
 });
-
+/*
 app.get('/ability/:name', function (req, res) {
     // Connecting to the database.
     con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
@@ -109,7 +110,7 @@ app.get('/stats/:name', function (req, res) {
       res.send(results);
   });
 });
-
+*/
 
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: "./testprojectweb/build" });

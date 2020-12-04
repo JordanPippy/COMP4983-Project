@@ -18,7 +18,7 @@ const port = process.env.PORT;
 
 //const mysql = require('mysql');
 
-const { Pool } = require('pg');
+const pg = require('pg');
 
 /*
 const con = new Client({
@@ -30,14 +30,15 @@ con.connect();
 */
 
 //const con = mysql.createConnection(process.env.JAWSDB_URL);
+let connString = process.env.DATABASE_URL;
+
+const { Pool } = require('pg');
 console.log("before connection");
 const pool = new Pool({
-  host: 'ec2-18-210-214-86.compute-1.amazonaws.com',
-  user: 'lstjsnjjrqgbwa',
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
+  connectionString : connString,
+  ssl: true,
+})
+module.exports = {pool}
 console.log("after connection");
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -81,19 +82,14 @@ app.get('/title/:name', function (req, res) {
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
-    pool.connect(function (err, client, done) {
-      if (err) {
-        console.log("can not connect to db: " + err);
-      }
-      client.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results) {
+      pool.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results) {
         // If some error occurs, we throw an error.
-        done();
+       // done();
         if (error) throw error;
   
         // Getting the 'response' from the database and sending it to our route. This is were the data is.
         res.send(results.rows);
     });
-    })
 });
 /*
 app.get('/ability/:name', function (req, res) {

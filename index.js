@@ -37,8 +37,8 @@ console.log("before connection");
 const pool = new Pool({
   connectionString : connString,
   ssl: true,
-})
-module.exports = {pool}
+});
+module.exports = {pool};
 console.log("after connection");
 app.use(bodyParser.urlencoded({ extended: false }));
 

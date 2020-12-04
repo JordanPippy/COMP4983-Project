@@ -108,6 +108,11 @@ app.get('*', function (req, res) {
     console.log(req.url);
 })
 
+process.on('exit', function() {
+  con.end();
+  console.log("HEY WE FUCKIN EXITED");
+});
+
 
 app.listen(port, function () {
     console.log('The server running on Port '+ port);

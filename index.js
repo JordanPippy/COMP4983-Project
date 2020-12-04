@@ -6,7 +6,7 @@ const path = require('path');
 const cors = require('cors');
 const app = express();
 app.enable('trust proxy');
-
+require('dotenv').config({path: __dirname + '/.env'})
 app.use(cors());
 app.use(express.static(path.join(__dirname, './build')));
 app.use(express.static(path.join(__dirname, './assets/champions')));
@@ -31,7 +31,13 @@ con.connect();
 
 //const con = mysql.createConnection(process.env.JAWSDB_URL);
 console.log("before connection");
-const pool = new Pool(process.env.DATABASE_URL);
+const pool = new Pool({
+  host: 'ec2-18-210-214-86.compute-1.amazonaws.com',
+  user: 'lstjsnjjrqgbwa',
+  max: 20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+});
 console.log("after connection");
 app.use(bodyParser.urlencoded({ extended: false }));
 

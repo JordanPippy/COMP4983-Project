@@ -18,7 +18,7 @@ const port = process.env.PORT;
 
 //const mysql = require('mysql');
 
-const { Client } = require('pg');
+const pg = require('pg');
 
 /*
 const con = new Client({
@@ -30,7 +30,7 @@ con.connect();
 */
 
 //const con = mysql.createConnection(process.env.JAWSDB_URL);
-const con = pg.connect(process.env.DATABASE_URL, function(err, client) {});
+const pool = new pg.Pool(process.env.DATABASE_URL);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -73,13 +73,19 @@ app.get('/title/:name', function (req, res) {
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
-    con.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results, fields) {
-      // If some error occurs, we throw an error.
-      if (error) throw error;
-
-      // Getting the 'response' from the database and sending it to our route. This is were the data is.
-      res.send(results);
-  });
+    pool.connect(function (err, client, done) {
+      if (err) {
+        console.log("can not connect to db: " + err);
+      }
+      client.query('SELECT fileName FROM fileNames ORDER BY fileName ASC', function (error, results) {
+        // If some error occurs, we throw an error.
+        done();
+        if (error) throw error;
+  
+        // Getting the 'response' from the database and sending it to our route. This is were the data is.
+        res.send(results.rows);
+    });
+    })
 });
 
 app.get('/ability/:name', function (req, res) {

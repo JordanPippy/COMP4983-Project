@@ -43,7 +43,9 @@ const { Pool } = require('pg');
 console.log("before connection");
 const pool = new Pool({
   connectionString : connString,
-  ssl: true,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 module.exports = {pool};
 console.log("after connection");
@@ -59,10 +61,10 @@ const con = mysql.createPool({
 module.exports = con;
 */
 
-/*
+
 app.get('/charactersID', function (req, res) {
     // Connecting to the database.
-    con.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results, fields) {
+    pool.query('SELECT * FROM CharactersID ORDER BY characterName ASC', function (error, results) {
       // If some error occurs, we throw an error.
       if (error) throw error;
 
@@ -73,15 +75,17 @@ app.get('/charactersID', function (req, res) {
 
 app.get('/title/:name', function (req, res) {
     // Connecting to the database.
-    con.query('SELECT title FROM Titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results, fields) {
+    const name = req.params.name;
+    //pool.query('SELECT title FROM titles WHERE id = (SELECT id from CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ')' , function (error, results) {
+      pool.query('SELECT title FROM titles WHERE id = (SELECT id from CharactersID WHERE characterName = $1)', [name] , function (error, results) {
       // If some error occurs, we throw an error.
       if (error) throw error;
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
-      res.send(results);
+      res.send(results.rows);
   });
 });
-*/
+
 
 app.get('/fileNames', function (req, res) {
     // Connecting to the database.
@@ -91,32 +95,36 @@ app.get('/fileNames', function (req, res) {
         if (error) throw error;
   
         // Getting the 'response' from the database and sending it to our route. This is were the data is.
+        console.log(results.rows);
         res.send(results.rows);
     });
 });
-/*
+
 app.get('/ability/:name', function (req, res) {
+    const name = req.params.name;
     // Connecting to the database.
-    con.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM Abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results, fields) {
+    //pool.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ') ORDER BY letter ASC;', function (error, results) {
+      pool.query('SELECT ability, abilityFile, abilityCooldown, abilityDescription, abilityMath FROM abilities WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = $1) ORDER BY letter ASC;', [name], function (error, results) {
       // If some error occurs, we throw an error.
       if (error) throw error;
 
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
-      res.send(results);
+      res.send(results.rows);
   });
 });
 
 app.get('/stats/:name', function (req, res) {
+      const name = req.params.name;
     // Connecting to the database.
-    con.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results, fields) {
+    //pool.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = ' + '"' + req.params.name + '"' + ');', function (error, results) {
+      pool.query('SELECT HP, HPR, MP, MPR, MS, AD, attackSpeed, RNG, AR, MR FROM Stats WHERE characterID IN (SELECT id FROM CharactersID WHERE characterName = $1);', [name], function (error, results) {
       // If some error occurs, we throw an error.
       if (error) throw error;
-
       // Getting the 'response' from the database and sending it to our route. This is were the data is.
-      res.send(results);
+      res.send(results.rows);
   });
 });
-*/
+
 
 app.get('/', function (req, res) {
     res.sendFile('index.html', { root: "./testprojectweb/build" });

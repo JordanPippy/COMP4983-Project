@@ -37,6 +37,7 @@ class IconModal extends React.Component {
           .then(response => response.json())
           .then(res => {this.setState({
               title: res[0].title,
+              //title: res[0],
           })});
     }
 
@@ -87,6 +88,9 @@ class IconModal extends React.Component {
         //If modal is open, open the modal. *duh*
         if (this.state.open)
         {
+            console.warn(this.state.title);
+            console.warn(this.state.q);
+            console.warn(this.state.stats);
             //Checking if we have all the data, else get all the data.
             if (this.state.title != '' && this.state.q != null && this.state.stats != null)
             {
@@ -115,34 +119,34 @@ class IconModal extends React.Component {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <p>{this.state.stats.HP}</p>
+                                            <p>{this.state.stats.hp}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.HPR}</p>
+                                            <p>{this.state.stats.hpr}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.MP}</p>
+                                            <p>{this.state.stats.mp}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.MPR}</p>
+                                            <p>{this.state.stats.mpr}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.MS}</p>
+                                            <p>{this.state.stats.ms}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.AD}</p>
+                                            <p>{this.state.stats.ad}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.attackSpeed}</p>
+                                            <p>{this.state.stats.attackspeed}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.RNG}</p>
+                                            <p>{this.state.stats.rng}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.AR}</p>
+                                            <p>{this.state.stats.ar}</p>
                                         </td>
                                         <td>
-                                            <p>{this.state.stats.MR}</p>
+                                            <p>{this.state.stats.mr}</p>
                                         </td>
                                     </tr>
                                 </td>
@@ -156,17 +160,17 @@ class IconModal extends React.Component {
                                         <h1>Passive</h1>
                                     </td>
                                     <td>
-                                        <img src={this.state.p.abilityFile}></img>
+                                        <img src={this.state.p.abilityfile}></img>
                                         <p>{this.state.p.ability}</p>
-                                        <p>{this.state.p.abilityCooldown}</p>
+                                        <p>{this.state.p.abilitycooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
                                             <td>
-                                                <p>{this.state.p.abilityDescription}</p>
+                                                <p>{this.state.p.abilitydescription}</p>
                                             </td>
                                             <td>
-                                                <p>{this.state.p.abilityMath}</p>
+                                                <p>{this.state.p.abilitymath}</p>
                                             </td>
                                         </tr>
                                     </td>
@@ -177,17 +181,17 @@ class IconModal extends React.Component {
                                         <h1>Q</h1>
                                     </td>
                                     <td>
-                                        <img src={this.state.q.abilityFile}></img>
+                                        <img src={this.state.q.abilityfile}></img>
                                         <p>{this.state.q.ability}</p>
-                                        <p>{this.state.q.abilityCooldown}</p>
+                                        <p>{this.state.q.abilitycooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
                                             <td>
-                                                <p>{this.state.q.abilityDescription}</p>
+                                                <p>{this.state.q.abilitydescription}</p>
                                             </td>
                                             <td>
-                                                <p>{this.state.q.abilityMath}</p>
+                                                <p>{this.state.q.abilitymath}</p>
                                             </td>
                                         </tr>
                                     </td>
@@ -198,17 +202,17 @@ class IconModal extends React.Component {
                                         <h1>W</h1>
                                     </td>
                                     <td>
-                                        <img src={this.state.w.abilityFile}></img>
+                                        <img src={this.state.w.abilityfile}></img>
                                         <p>{this.state.w.ability}</p>
-                                        <p>{this.state.w.abilityCooldown}</p>
+                                        <p>{this.state.w.abilitycooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
                                             <td>
-                                                <p>{this.state.w.abilityDescription}</p>
+                                                <p>{this.state.w.abilitydescription}</p>
                                             </td>
                                             <td>
-                                                <p>{this.state.w.abilityMath}</p>
+                                                <p>{this.state.w.abilitymath}</p>
                                             </td>
                                         </tr>
                                     </td>
@@ -219,17 +223,17 @@ class IconModal extends React.Component {
                                         <h1>E</h1>
                                     </td>
                                     <td>
-                                        <img src={this.state.e.abilityFile}></img>
+                                        <img src={this.state.e.abilityfile}></img>
                                         <p>{this.state.e.ability}</p>
-                                        <p>{this.state.e.abilityCooldown}</p>
+                                        <p>{this.state.e.abilitycooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
                                             <td>
-                                                <p>{this.state.e.abilityDescription}</p>
+                                                <p>{this.state.e.abilitydescription}</p>
                                             </td>
                                             <td>
-                                                <p>{this.state.e.abilityMath}</p>
+                                                <p>{this.state.e.abilitymath}</p>
                                             </td>
                                         </tr>
                                     </td>
@@ -240,17 +244,17 @@ class IconModal extends React.Component {
                                         <h1>R</h1>
                                     </td>
                                     <td>
-                                        <img src={this.state.r.abilityFile}></img>
+                                        <img src={this.state.r.abilityfile}></img>
                                         <p>{this.state.r.ability}</p>
-                                        <p>{this.state.r.abilityCooldown}</p>
+                                        <p>{this.state.r.abilitycooldown}</p>
                                     </td>
                                     <td>
                                         <tr>
                                             <td>
-                                                <p>{this.state.r.abilityDescription}</p>
+                                                <p>{this.state.r.abilitydescription}</p>
                                             </td>
                                             <td>
-                                                <p>{this.state.r.abilityMath}</p>
+                                                <p>{this.state.r.abilitymath}</p>
                                             </td>
                                         </tr>
                                     </td>
@@ -350,10 +354,10 @@ class HomepageHandler extends React.Component {
         for (i = 0; i < this.state.length; i++)
         {
             let name1 = this.props.search.toLowerCase();
-            let name2 = this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6).toLowerCase();
+            let name2 = this.state.files[i].filename.substring(0, this.state.files[i].filename.length - 6).toLowerCase();
             if (name2.indexOf(name1) >= 0) {
                 tempItems.push(
-                    <Col className="animate"><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>
+                    <Col className="animate"><center><h2>{this.state.files[i].filename.substring(0, this.state.files[i].filename.length - 6)}</h2>{this.renderImage(this.state.files[i].filename)}</center></Col>
                 );
             }
         }
@@ -415,6 +419,7 @@ class Home extends React.Component {
         //In all liklieness the first few times it renders, the HomepageHandler will be null.
         //Thats because it is pulling quite a bit of data from the database. It will display it whenever it
         //actually gets the data.
+        console.warn(this.state.files[0].filename);
         return (
             <div>
                 <Container className="themed-container champ" fluid={true}>

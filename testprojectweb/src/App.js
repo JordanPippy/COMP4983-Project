@@ -5,17 +5,16 @@ import { Button } from 'reactstrap';
 import { Container, Row, Col, Modal, ModalTitle, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 //THIS IS THE CONNECTION FOR THE DATABASE. IT NEEDS TO BE CHANGED WHEN USING ON A DIFFERENT COMPUTER
-const dbPath = 'http://192.168.0.9:3000';
+const dbPath = 'http://192.168.0.9:3000/';
 
 /*
  * IconModal: Handles the onClick functionality of all the characters on screen.
  *            It is responsible for querying the database to get all of the information about the 
  *            clicked character, also for opening and closing itself.
-*/
+ */
 class IconModal extends React.Component {
     constructor(props) {
         super(props);
-        console.warn("modal");
         this.state = {
             image: this.props.image,
             name: this.props.name,
@@ -34,17 +33,16 @@ class IconModal extends React.Component {
 
     //Below are database queries, they fetch all of the needed data from the back-end.
     getTitle() {
-        console.warn("db req name: " + this.state.name);
-        fetch(dbPath + '/Title/' + this.state.name)
+        fetch(dbPath + 'title/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
               title: res[0].title,
+              //title: res[0],
           })});
     }
 
     getAbilities() {
-        console.warn("db req abilities: " + this.state.name);
-        fetch(dbPath + '/Ability/' + this.state.name)
+        fetch(dbPath + 'ability/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
               p: res[1],
@@ -56,8 +54,7 @@ class IconModal extends React.Component {
     }
 
     getStats() {
-        console.warn("db req stats: " + this.state.name);
-        fetch(dbPath + '/Stats/' + this.state.name)
+        fetch(dbPath + 'stats/' + this.state.name)
           .then(response => response.json())
           .then(res => {this.setState({
               stats: res[0],
@@ -91,7 +88,6 @@ class IconModal extends React.Component {
         //If modal is open, open the modal. *duh*
         if (this.state.open)
         {
-            console.warn("STATE IS OPEN");
             //Checking if we have all the data, else get all the data.
             if (this.state.title != '' && this.state.q != null && this.state.stats != null)
             {
@@ -354,11 +350,11 @@ class HomepageHandler extends React.Component {
         var i;
         for (i = 0; i < this.state.length; i++)
         {
-            let name1 = this.props.search;
-            let name2 = this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6);
+            let name1 = this.props.search.toLowerCase();
+            let name2 = this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6).toLowerCase();
             if (name2.indexOf(name1) >= 0) {
                 tempItems.push(
-                    <Col><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>
+                    <Col className="animate"><center><h2>{this.state.files[i].fileName.substring(0, this.state.files[i].fileName.length - 6)}</h2>{this.renderImage(this.state.files[i].fileName)}</center></Col>
                 );
             }
         }
@@ -400,7 +396,7 @@ class Home extends React.Component {
 
     //fetch file paths from database on load.
     componentDidMount() {
-        fetch(dbPath + '/fileNames')
+        fetch(dbPath + 'fileNames')
           .then(response => response.json())
           .then(res => {
               this.setState({files: res});
@@ -427,6 +423,8 @@ class Home extends React.Component {
                 <center>
                 <input type="text" placeholder="Enter item to be searched" value={this.state.search} onChange={(e)=>this.searchSpace(e)} />
                 </center>
+                <br />
+                <br />
                 </div>
                 <div>
                     <HomepageHandler files={this.state.files}

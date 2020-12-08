@@ -7,11 +7,17 @@ Once the database is happy, the hard work is over.
 -----------------------------------------------------------------------------------------------------------------------------------------
 
 Installation Instructions:
+
 'cd ./testprojectweb'
+
 'npm install'
+
 'npm run build'
+
 'cd ../testprojectserver'
+
 'npm install'
+
 'node index.js'
 
 Browse to http://localhost:3000

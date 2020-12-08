@@ -1,13 +1,15 @@
--- MySQL dump 10.13  Distrib 5.7.32, for Linux (x86_64)
+CREATE DATABASE  IF NOT EXISTS `finalProject` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `finalProject`;
+-- MySQL dump 10.13  Distrib 8.0.22, for Win64 (x86_64)
 --
--- Host: localhost    Database: finalProject
+-- Host: 127.0.0.1    Database: finalProject
 -- ------------------------------------------------------
 -- Server version	5.7.32-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -16,20 +18,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `finalProject`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `finalProject` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `finalProject`;
-
---
 -- Table structure for table `Abilities`
 --
 
 DROP TABLE IF EXISTS `Abilities`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Abilities` (
   `characterID` int(11) DEFAULT NULL,
   `ability` varchar(50) DEFAULT NULL,
@@ -57,7 +51,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `CharactersID`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `CharactersID` (
   `characterName` varchar(25) NOT NULL,
   `id` int(11) NOT NULL,
@@ -81,7 +75,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `Stats`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Stats` (
   `characterID` int(11) DEFAULT NULL,
   `HP` varchar(25) DEFAULT NULL,
@@ -113,7 +107,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `Titles`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Titles` (
   `id` int(11) NOT NULL,
   `title` varchar(50) NOT NULL,
@@ -138,12 +132,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `fileNames`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `fileNames` (
-  `FIleID` int(11) NOT NULL,
+  `fileID` int(11) NOT NULL,
   `characterID` int(11) NOT NULL,
   `fileName` varchar(25) NOT NULL,
-  PRIMARY KEY (`FIleID`)
+  PRIMARY KEY (`fileID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -166,4 +160,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-01 15:07:08
+-- Dump completed on 2020-12-08 12:45:36
